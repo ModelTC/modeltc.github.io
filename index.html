@@ -3,86 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Light AI - Large Model Systems</title>
+    <title>Light AI · Light-speed Large Model Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            color-scheme: light;
+            --page-bg: radial-gradient(140% 140% at 20% 20%, #161b33 0%, #0f172a 28%, #020617 60%, #01030d 100%);
+            --grid-overlay: linear-gradient(transparent 94%, rgba(148, 163, 184, 0.16) 96%) center/100% 48px, linear-gradient(90deg, transparent 94%, rgba(148, 163, 184, 0.14) 96%) center/48px 100%;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --card-border: rgba(148, 163, 184, 0.18);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-strong: #0ea5e9;
+            --accent-muted: rgba(56, 189, 248, 0.18);
+            --shadow-glow: 0 32px 80px rgba(14, 165, 233, 0.28);
+            --container-width: min(1100px, 90vw);
+        }
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Space Grotesk', 'Arial', sans-serif;
             margin: 0;
-            padding: 0;
-            color: #333;
-            line-height: 1.6;
+            color: var(--text-primary);
+            line-height: 1.7;
+            background: var(--page-bg), #020617;
+            background-blend-mode: screen;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
-        .header {
-            background: #3b82f6;
-            color: white;
-            padding: 2rem;
-            text-align: center;
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: var(--grid-overlay);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -1;
         }
-        .container {
-            max-width: 1000px;
+        header {
+            padding: 3.5rem 0 4.5rem;
+        }
+        .hero {
+            width: var(--container-width);
             margin: 0 auto;
-            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+        }
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            width: var(--container-width);
+            margin: 0 auto 1rem;
+        }
+        .lang-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(148, 163, 184, 0.14);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 999px;
+            padding: 0.35rem;
+        }
+        .lang-toggle button {
+            background: transparent;
+            border: none;
+            border-radius: 999px;
+            color: var(--text-secondary);
+            padding: 0.45rem 0.95rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .lang-toggle button.active {
+            background: rgba(56, 189, 248, 0.16);
+            color: var(--accent);
+        }
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(14, 165, 233, 0.12);
+            color: var(--accent);
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+        h1 {
+            font-size: clamp(2.75rem, 5vw, 3.6rem);
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        .hero-subtitle {
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+        .cta-row {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.6rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .cta.primary {
+            background: linear-gradient(130deg, var(--accent) 0%, var(--accent-strong) 100%);
+            color: #0f172a;
+            box-shadow: var(--shadow-glow);
+        }
+        .cta.secondary {
+            background: rgba(148, 163, 184, 0.12);
+            color: var(--text-primary);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+        }
+        section {
+            width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 0 4rem;
+        }
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .section-heading h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        .section-heading p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
         }
         .project-card {
-            background: #f8f9fa;
-            border-radius: 6px;
-            padding: 1.5rem;
-            border: 1px solid #e9ecef;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 1.8rem;
+            backdrop-filter: blur(18px);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease;
+        }
+        .project-card::after {
+            content: "";
+            position: absolute;
+            inset: -40% 40% 60% -40%;
+            background: radial-gradient(circle at center, rgba(56, 189, 248, 0.18), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .project-card:hover {
+            border-color: rgba(56, 189, 248, 0.5);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 44px rgba(15, 23, 42, 0.4);
+        }
+        .project-card:hover::after {
+            opacity: 1;
         }
         .project-card h3 {
-            color: #3b82f6;
-            margin-top: 0;
+            margin: 0 0 0.75rem;
+            font-size: 1.4rem;
+            color: #f1f5f9;
+        }
+        .project-card p {
+            margin: 0 0 1.4rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .project-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.95rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(148, 163, 184, 0.08);
+            transition: border 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .project-link:hover {
+            border-color: rgba(56, 189, 248, 0.6);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .update-feed {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .update-item {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 1.2rem;
+            padding: 1.2rem 1.5rem;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(56, 189, 248, 0.16);
+        }
+        .update-item strong {
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .update-item span {
+            color: var(--text-secondary);
+        }
+        footer {
+            padding: 3rem 0 2rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.16);
+            margin-top: 2rem;
+        }
+        footer .footer-inner {
+            width: var(--container-width);
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: var(--accent);
+        }
+        @media (max-width: 720px) {
+            header {
+                padding: 3rem 0 3.5rem;
+            }
+            .section-heading {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .update-item {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Light AI</h1>
-        <p>Advanced Systems for Large Models</p>
-    </div>
-
-    <div class="container">
-        <h2>Our Key Projects</h2>
-        
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>LLMC</h3>
-                <p>Large Language Model Compression framework for efficient model deployment and optimization.</p>
+    <header>
+        <div class="hero">
+            <div class="lang-switch">
+                <div class="lang-toggle" role="group" aria-label="Language toggle">
+                    <button type="button" data-lang="en">English</button>
+                    <button type="button" data-lang="zh">中文</button>
+                </div>
             </div>
-
-            <div class="project-card">
-                <a href="https://modeltc.github.io/lightllm-blog/">
-                <h3>LightLLM</h3>
-                </a>
-                <p>Lightweight implementation of Large Language Models with state-of-the-art performance.</p>
-            </div>
-
-            <div class="project-card">
-                <h3>EasyLLM</h3>
-                <p>Simplified toolkit for training and fine-tuning large language models with minimal setup.</p>
-            </div>
-
-            <div class="project-card">
-                <h3>MQBench</h3>
-                <p>Comprehensive benchmarking suite for model quantization and performance evaluation.</p>
+            <span class="hero-label" data-i18n="hero.label">Light AI · Model Toolchain</span>
+            <h1 data-i18n="hero.title">Light-speed efficient multi-modal tooling for synthetic media generation</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">
+                Light AI 提供覆盖大模型压缩、推理和视频生成体验的一站式工具矩阵，加速从研究到落地的每一个环节。
+            </p>
+            <div class="cta-row">
+                <a class="cta primary" href="https://github.com/ModelTC" target="_blank" rel="noopener" data-i18n="hero.cta.github">Explore GitHub</a>
+                <a class="cta secondary" href="#projects" data-i18n="hero.cta.platforms">View Platforms</a>
+                <a class="cta secondary" href="#updates" data-i18n="hero.cta.updates">Latest Updates</a>
             </div>
         </div>
-    </div>
+    </header>
 
-    <footer class="container" style="text-align: center; margin-top: 2rem;">
-        <p>© 2024 Light AI</p>
-        <p style="margin-top: 1rem;">
-            <a href="https://beian.miit.gov.cn" target="_blank" style="color: #666; text-decoration: none;">
-                京ICP备2021026391号-2
-            </a>
-        </p>
+    <main>
+        <section id="projects">
+            <div class="section-heading">
+                <h2 data-i18n="projects.title">Core Platforms</h2>
+                <p data-i18n="projects.subtitle">围绕高效大模型部署的四大核心产品矩阵，持续迭代更新中。</p>
+            </div>
+            <div class="project-grid">
+                <article class="project-card">
+                    <h3>LightCompress</h3>
+                    <p data-i18n="projects.lightcompress.description">大模型压缩与量化工具链，支持混合精度推理、蒸馏与结构化裁剪，让模型以更小的成本运行得更快。</p>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ModelTC/LightCompress" target="_blank" rel="noopener" data-i18n="common.github">GitHub</a>
+                        <a class="project-link" href="https://light-ai.top/blog/lightcompress" target="_blank" rel="noopener" data-i18n="common.blog">Blog</a>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <h3>LightLLM</h3>
+                    <p data-i18n="projects.lightllm.description">轻量级大语言模型与多模态推理框架，覆盖批量、流式和多 GPU 场景，持续输出性能调优最佳实践。</p>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ModelTC/LightLLM" target="_blank" rel="noopener" data-i18n="common.github">GitHub</a>
+                        <a class="project-link" href="https://modeltc.github.io/lightllm-blog/" target="_blank" rel="noopener" data-i18n="common.blog">Blog</a>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <h3>LightX2V</h3>
+                    <p data-i18n="projects.lightx2v.description">视频生成推理引擎，专注文本与多模态提示到视频的高保真输出，面向创意生产和虚拟人场景。</p>
+                    <div class="project-links">
+                        <a class="project-link" href="https://github.com/ModelTC/LightX2V" target="_blank" rel="noopener" data-i18n="common.github">GitHub</a>
+                        <a class="project-link" href="https://light-ai.top/blog/lightx2v" target="_blank" rel="noopener" data-i18n="common.blog">Blog</a>
+                    </div>
+                </article>
+                <article class="project-card">
+                    <h3>X2V Studio</h3>
+                    <p data-i18n="projects.x2vstudio.description">上线体验站点，支持口型驱动和多风格生成，实时探索 LightX2V 模型在生产环境中的表现。</p>
+                    <div class="project-links">
+                        <a class="project-link" href="https://x2v.light-ai.top" target="_blank" rel="noopener" data-i18n="projects.x2vstudio.cta">Open Studio</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="updates">
+            <div class="section-heading">
+                <h2 data-i18n="updates.title">Latest Signals</h2>
+                <p data-i18n="updates.subtitle">博客与版本更新会在此同步发布，欢迎订阅 RSS 或加入社区。</p>
+            </div>
+            <div class="update-feed">
+                <div class="update-item">
+                    <strong data-i18n="updates.q1.label">2025·Q1</strong>
+                    <span data-i18n="updates.q1.content">LightCompress 推出面向推理部署的 KV Cache 低秩压缩方案，部署成本下降 38%。</span>
+                </div>
+                <div class="update-item">
+                    <strong data-i18n="updates.feb.label">2025·02</strong>
+                    <span data-i18n="updates.feb.content">LightLLM 发布多模态推理加速教程，并新增对视频问答的端到端 Demo 支持。</span>
+                </div>
+                <div class="update-item">
+                    <strong data-i18n="updates.jan.label">2025·01</strong>
+                    <span data-i18n="updates.jan.content">LightX2V 完成 1.3 版本上线，强化口型驱动稳定性，开放体验站 `x2v.light-ai.top`。</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <p data-i18n="footer.copyright">© 2025 Light AI · Model Tech Collective</p>
+            <p>
+                <a href="mailto:contact@light-ai.top" data-i18n="footer.contact">contact@light-ai.top</a> ·
+                <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener" data-i18n="footer.icp">京ICP备2021026391号-2</a>
+            </p>
+        </div>
     </footer>
+    <script>
+        const translations = {
+            en: {
+                'hero.label': 'Light AI · Model Tech Collective',
+                'hero.title': 'Light-speed tooling for compression, inference, and synthetic media.',
+                'hero.subtitle': 'Light AI delivers an end-to-end toolkit for model compression, inference, and video generation experiences, accelerating every step from research to production.',
+                'hero.cta.github': 'Explore GitHub',
+                'hero.cta.platforms': 'View Platforms',
+                'hero.cta.updates': 'Latest Updates',
+                'projects.title': 'Core Platforms',
+                'projects.subtitle': 'Four core products for efficient large-model deployment, continuously iterating.',
+                'projects.lightcompress.description': 'Comprehensive compression and quantization toolkit supporting mixed precision, distillation, and structured pruning to run models faster at lower cost.',
+                'projects.lightllm.description': 'Lightweight inference stack for large language and multimodal models, covering batched, streaming, and multi-GPU workloads with continuous performance tuning.',
+                'projects.lightx2v.description': 'Video generation inference engine focused on high-fidelity outputs from text and multimodal prompts for creative and virtual avatar scenarios.',
+                'projects.x2vstudio.description': 'Live experience site supporting lip-sync driving and multi-style generation to explore LightX2V in production environments.',
+                'projects.x2vstudio.cta': 'Open Studio',
+                'updates.title': 'Latest Signals',
+                'updates.subtitle': 'Blog stories and release notes drop here. Subscribe via RSS or join the community.',
+                'updates.q1.label': 'Q1·2025',
+                'updates.q1.content': 'LightCompress releases a low-rank KV cache compression recipe for inference deployment, cutting serving cost by 38%.',
+                'updates.feb.label': 'Feb·2025',
+                'updates.feb.content': 'LightLLM ships a multimodal inference acceleration guide with a new end-to-end video QA demo.',
+                'updates.jan.label': 'Jan·2025',
+                'updates.jan.content': 'LightX2V v1.3 improves lip-sync stability and opens the public studio at `x2v.light-ai.top`.',
+                'footer.contact': 'contact@light-ai.top',
+                'footer.icp': 'ICP No. 京ICP备2021026391号-2',
+                'footer.copyright': '© 2025 Light AI · Model Tech Collective',
+                'common.github': 'GitHub',
+                'common.blog': 'Blog'
+            },
+            zh: {
+                'hero.label': 'Light AI · Model Tech Collective',
+                'hero.title': '面向压缩、推理与生成的极速大模型工具链。',
+                'hero.subtitle': 'Light AI 聚焦大模型压缩、推理和视频生成体验，打造从研究到落地的一站式工具矩阵，助力团队快速上线 AI 生产力。',
+                'hero.cta.github': '访问 GitHub',
+                'hero.cta.platforms': '查看平台矩阵',
+                'hero.cta.updates': '最新动态',
+                'projects.title': '核心平台',
+                'projects.subtitle': '围绕高效大模型部署的四大核心产品矩阵，持续迭代更新中。',
+                'projects.lightcompress.description': '大模型压缩与量化工具链，支持混合精度推理、蒸馏与结构化裁剪，让模型以更小的成本运行得更快。',
+                'projects.lightllm.description': '轻量级大语言模型与多模态推理框架，覆盖批量、流式和多 GPU 场景，持续输出性能调优最佳实践。',
+                'projects.lightx2v.description': '视频生成推理引擎，专注文本与多模态提示到视频的高保真输出，面向创意生产和虚拟人场景。',
+                'projects.x2vstudio.description': '上线体验站点，支持口型驱动和多风格生成，实时探索 LightX2V 模型在生产环境中的表现。',
+                'projects.x2vstudio.cta': '立即体验',
+                'updates.title': '最新信号',
+                'updates.subtitle': '博客与版本更新会在此同步发布，欢迎订阅 RSS 或加入社区。',
+                'updates.q1.label': '2025·Q1',
+                'updates.q1.content': 'LightCompress 推出面向推理部署的 KV Cache 低秩压缩方案，部署成本下降 38%。',
+                'updates.feb.label': '2025·02',
+                'updates.feb.content': 'LightLLM 发布多模态推理加速教程，并新增对视频问答的端到端 Demo 支持。',
+                'updates.jan.label': '2025·01',
+                'updates.jan.content': 'LightX2V 完成 1.3 版本上线，强化口型驱动稳定性，开放体验站 `x2v.light-ai.top`。',
+                'footer.contact': 'contact@light-ai.top',
+                'footer.icp': '京ICP备2021026391号-2',
+                'common.github': 'GitHub',
+                'common.blog': '博客'
+            }
+        };
+
+        const htmlEl = document.documentElement;
+        const langButtons = document.querySelectorAll('.lang-toggle button');
+
+        function updateLanguage(lang) {
+            const messages = translations[lang] || translations.en;
+            document.querySelectorAll('[data-i18n]').forEach(node => {
+                const key = node.getAttribute('data-i18n');
+                if (messages[key]) {
+                    node.innerHTML = messages[key];
+                }
+            });
+            langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+            htmlEl.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+            localStorage.setItem('lightai-lang', lang);
+        }
+
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                updateLanguage(button.dataset.lang);
+            });
+        });
+
+        const savedLang = localStorage.getItem('lightai-lang');
+        const browserLang = navigator.language || navigator.userLanguage || 'en';
+        const initialLang = savedLang || (browserLang.toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        updateLanguage(initialLang);
+    </script>
 </body>
 </html>
 
