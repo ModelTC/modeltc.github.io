@@ -204,15 +204,23 @@
             margin: 0 auto;
         }
 
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
         .project-card {
             background: rgba(30, 41, 59, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 2.5rem;
-            margin-bottom: 2rem;
             backdrop-filter: blur(10px);
             transition: all 0.4s ease;
             opacity: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .project-card:hover {
@@ -233,12 +241,14 @@
             line-height: 1.7;
             color: var(--text-secondary);
             font-weight: 300;
+            flex: 1;
         }
 
         .project-links {
             display: flex;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin-top: auto;
+            padding-top: 1.5rem;
             flex-wrap: wrap;
         }
 
@@ -332,6 +342,26 @@
             cursor: pointer;
         }
 
+        .projects-preview {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .project-preview-item {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .project-preview-item:hover {
+            color: var(--accent-blue);
+        }
+
         @media (max-width: 991px) {
             .nav-menu-5 {
                 display: none;
@@ -347,6 +377,21 @@
 
             .project-card {
                 padding: 1.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .projects-preview {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -400,6 +445,12 @@
             <a href="#projects" class="button fade-in" data-i18n="hero.cta" style="animation-delay: 0.4s">
                 Explore Platforms
             </a>
+            <div class="projects-preview fade-in" style="animation-delay: 0.6s">
+                <a href="#projects" class="project-preview-item">LightCompress</a>
+                <a href="#projects" class="project-preview-item">LightLLM</a>
+                <a href="#projects" class="project-preview-item">LightX2V</a>
+                <a href="#projects" class="project-preview-item">X2V Studio</a>
+            </div>
         </div>
     </section>
 
@@ -412,14 +463,15 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
+        <!-- Projects Section -->
     <section id="projects" class="background-color-secondary">
         <div class="container-large">
             <h2 class="h2-section-text" data-i18n="projects.title">Core Platforms</h2>
         </div>
 
-        <!-- LightCompress -->
+        <!-- Projects Grid -->
         <div class="container-xlarge">
+            <div class="projects-grid">
             <div class="project-card" data-project="lightcompress">
                 <h3 class="heading-style-h3">LightCompress</h3>
                 <p class="heading-style-h6" data-i18n="projects.lightcompress.description">
@@ -479,13 +531,14 @@
                     </a>
                 </div>
             </div>
+            </div>
         </div>
     </section>
 
     <!-- Updates Section -->
     <section id="updates" class="ama-scrolling-words-section">
         <div class="container-large">
-            <h2 class="h2-section-text" data-i18n="updates.title">Latest Signals</h2>
+            <h2 class="h2-section-text" data-i18n="updates.title">Latest Updates</h2>
         </div>
         <div class="update-feed">
             <div class="update-item">
@@ -538,7 +591,7 @@
                 'projects.lightx2v.description': 'Video generation inference engine focused on high-fidelity outputs from text and multimodal prompts for creative and virtual avatar scenarios.',
                 'projects.x2vstudio.description': 'Live experience site supporting lip-sync driving and multi-style generation to explore LightX2V in production environments.',
                 'projects.x2vstudio.cta': 'Open Studio',
-                'updates.title': 'Latest Signals',
+                'updates.title': 'Latest Updates',
                 'updates.q1.label': 'Q1 · 2025',
                 'updates.q1.content': 'LightCompress releases a low-rank KV cache compression recipe for inference deployment, cutting serving cost by 38%.',
                 'updates.feb.label': 'Feb · 2025',
@@ -564,7 +617,7 @@
                 'projects.lightx2v.description': '视频生成推理引擎，专注文本与多模态提示到视频的高保真输出，面向创意生产和虚拟人场景。',
                 'projects.x2vstudio.description': '上线体验站点，支持口型驱动和多风格生成，实时探索 LightX2V 模型在生产环境中的表现。',
                 'projects.x2vstudio.cta': '立即体验',
-                'updates.title': '最新信号',
+                'updates.title': '最新动态',
                 'updates.q1.label': '2025 · Q1',
                 'updates.q1.content': 'LightCompress 推出面向推理部署的 KV Cache 低秩压缩方案，部署成本下降 38%。',
                 'updates.feb.label': '2025 · 02',
