@@ -375,6 +375,17 @@
             line-height: 1.6;
         }
 
+        .update-item a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .update-item a:hover {
+            color: var(--accent-blue);
+            text-decoration: underline;
+        }
+
         /* Footer */
         .footer-block {
             background: var(--primary-bg);
@@ -628,7 +639,7 @@
             </div>
             <div class="update-item">
                 <strong data-i18n="updates.jan.label">Jan · 2025</strong>
-                <span data-i18n="updates.jan.content">LightX2V v1.3 improves lip-sync stability and opens the public studio at x2v.light-ai.top.</span>
+                <span data-i18n="updates.jan.content">LightX2V experience service launches, enhancing lip-sync stability and opening the experience site at <a href="https://x2v.light-ai.top" target="_blank">x2v.light-ai.top</a>.</span>
             </div>
         </div>
     </section>
@@ -671,12 +682,12 @@
                 'projects.x2vstudio.description': 'Live experience site supporting lip-sync driving and multi-style generation to explore LightX2V in production environments.',
                 'projects.x2vstudio.cta': 'Open Studio',
                 'updates.title': 'Latest Updates',
-                'updates.q1.label': 'Q1 · 2025',
-                'updates.q1.content': 'LightCompress releases a low-rank KV cache compression recipe for inference deployment, cutting serving cost by 38%.',
-                'updates.feb.label': 'Feb · 2025',
-                'updates.feb.content': 'LightLLM ships a multimodal inference acceleration guide with a new end-to-end video QA demo.',
-                'updates.jan.label': 'Jan · 2025',
-                'updates.jan.content': 'LightX2V v1.3 improves lip-sync stability and opens the public studio at x2v.light-ai.top.',
+                'updates.jan.label': 'Nov · 2025',
+                'updates.jan.content': 'LightX2V experience service launches, enhancing lip-sync stability and opening the experience site at <a href="https://x2v.light-ai.top" target="_blank">x2v.light-ai.top</a>.',
+                'updates.q1.label': 'Oct · 2025',
+                'updates.q1.content': 'LightCompress introduces Token Pruning solution for inference deployment, <a href="https://arxiv.org/abs/2508.09981" target="_blank">benchmark paper</a> accepted by AAAI.',
+                'updates.feb.label': 'Sep · 2025',
+                'updates.feb.content': 'LightLLM original <a href="https://www.light-ai.top/lightllm-blog/2025/09/04/mtp.html" target="_blank">MTP acceleration solution</a> achieves over 2x performance improvement.',
                 'footer.tagline': 'Bridging the gap between imagination and creation.',
                 'footer.copyright': '© 2025 Light AI · Model Toolchain',
                 'footer.icp': 'ICP No. 京ICP备2021026391号-2',
@@ -684,9 +695,9 @@
                 'common.blog': 'Blog'
             },
             zh: {
-                'nav.projects': '产品矩阵',
+                'nav.projects': '开源项目',
                 'nav.updates': '最新动态',
-                'hero.title': '光速大模型系统',
+                'hero.title': '高效大模型系统',
                 'hero.subtitle': '模型压缩、推理与视频生成的端到端工具链',
                 'hero.cta': '探索平台',
                 'intro.text': '我们相信 AI 的未来是快速、高效且易用的。Light AI 提供前沿的压缩与推理技术，加速从研究到生产的每个环节，助力团队以光速部署大模型。',
@@ -699,12 +710,12 @@
                 'projects.x2vstudio.description': '上线体验站点，支持口型驱动和多风格生成，实时探索 LightX2V 模型在生产环境中的表现。',
                 'projects.x2vstudio.cta': '立即体验',
                 'updates.title': '最新动态',
-                'updates.q1.label': '2025 · Q1',
-                'updates.q1.content': 'LightCompress 推出面向推理部署的 KV Cache 低秩压缩方案，部署成本下降 38%。',
-                'updates.feb.label': '2025 · 02',
-                'updates.feb.content': 'LightLLM 发布多模态推理加速教程，并新增对视频问答的端到端 Demo 支持。',
-                'updates.jan.label': '2025 · 01',
-                'updates.jan.content': 'LightX2V 完成 1.3 版本上线，强化口型驱动稳定性，开放体验站 x2v.light-ai.top。',
+                'updates.jan.label': '2025 · 11',
+                'updates.jan.content': 'LightX2V 体验服务上线，强化口型驱动稳定性，开放体验站 <a href="https://x2v.light-ai.top" target="_blank">x2v.light-ai.top</a>。',
+                'updates.q1.label': '2025 · 10',
+                'updates.q1.content': 'LightCompress 推出面向推理部署的 Token Pruning 方案, <a href="https://arxiv.org/abs/2508.09981" target="_blank">benchmark论文</a>被AAAI录用。',
+                'updates.feb.label': '2025 · 09',
+                'updates.feb.content': 'LightLLM 原创<a href="https://www.light-ai.top/lightllm-blog/2025/09/04/mtp.html" target="_blank">MTP加速方案</a>，实现2倍以上性能提升。',
                 'footer.tagline': '连接想象与创造。',
                 'footer.copyright': '© 2025 Light AI · 模型工具链',
                 'footer.icp': '京ICP备2021026391号-2',
@@ -719,7 +730,12 @@
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (messages[key]) {
-                    el.textContent = messages[key];
+                    // Use innerHTML for content that may contain HTML links
+                    if (key.includes('updates.') && key.includes('.content')) {
+                        el.innerHTML = messages[key];
+                    } else {
+                        el.textContent = messages[key];
+                    }
                 }
             });
             
