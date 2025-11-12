@@ -1,466 +1,651 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-wf-domain="www.light-ai.top" data-wf-page="light-ai-home">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Light AI · Light-speed Large Model Systems</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@0.2.28/bundled/lenis.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
     <style>
-        :root {
-            color-scheme: light;
-            --page-bg: radial-gradient(140% 140% at 20% 20%, #161b33 0%, #0f172a 28%, #020617 60%, #01030d 100%);
-            --grid-overlay: linear-gradient(transparent 94%, rgba(148, 163, 184, 0.16) 96%) center/100% 48px, linear-gradient(90deg, transparent 94%, rgba(148, 163, 184, 0.14) 96%) center/48px 100%;
-            --card-bg: rgba(15, 23, 42, 0.7);
-            --card-border: rgba(148, 163, 184, 0.18);
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --accent: #38bdf8;
-            --accent-strong: #0ea5e9;
-            --accent-muted: rgba(56, 189, 248, 0.18);
-            --shadow-glow: 0 32px 80px rgba(14, 165, 233, 0.28);
-            --container-width: min(1100px, 90vw);
-        }
         * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Space Grotesk', 'Arial', sans-serif;
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-cyan: #22d3ee;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(180deg, #020617 0%, #0f172a 50%, #1e293b 100%);
             color: var(--text-primary);
-            line-height: 1.7;
-            background: var(--page-bg), #020617;
-            background-blend-mode: screen;
-            min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
         }
-        body::before {
-            content: "";
+
+        /* Navbar */
+        .navbar-black {
             position: fixed;
-            inset: 0;
-            background: var(--grid-overlay);
-            opacity: 0.4;
-            pointer-events: none;
-            z-index: -1;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        header {
-            padding: 3.5rem 0 4.5rem;
-        }
-        .hero {
-            width: var(--container-width);
+
+        .container-47 {
+            max-width: 1400px;
             margin: 0 auto;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 1.6rem;
-        }
-        .lang-switch {
-            display: flex;
-            justify-content: flex-end;
-            width: var(--container-width);
-            margin: 0 auto 1rem;
-        }
-        .lang-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            background: rgba(148, 163, 184, 0.14);
-            border: 1px solid rgba(148, 163, 184, 0.22);
-            border-radius: 999px;
-            padding: 0.35rem;
-        }
-        .lang-toggle button {
-            background: transparent;
-            border: none;
-            border-radius: 999px;
-            color: var(--text-secondary);
-            padding: 0.45rem 0.95rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-        .lang-toggle button.active {
-            background: rgba(56, 189, 248, 0.16);
-            color: var(--accent);
-        }
-        .hero-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(14, 165, 233, 0.12);
-            color: var(--accent);
-            padding: 0.45rem 1rem;
-            border-radius: 999px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-        }
-        h1 {
-            font-size: clamp(2.75rem, 5vw, 3.6rem);
-            font-weight: 600;
-            margin: 0;
-            letter-spacing: -0.02em;
-        }
-        .hero-subtitle {
-            color: var(--text-secondary);
-            max-width: 680px;
-            margin: 0 auto;
-            font-size: 1.05rem;
-        }
-        .cta-row {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-        .cta {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.9rem 1.6rem;
-            border-radius: 999px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-        .cta.primary {
-            background: linear-gradient(130deg, var(--accent) 0%, var(--accent-strong) 100%);
-            color: #0f172a;
-            box-shadow: var(--shadow-glow);
-        }
-        .cta.secondary {
-            background: rgba(148, 163, 184, 0.12);
-            color: var(--text-primary);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-        }
-        .cta:hover {
-            transform: translateY(-2px);
-        }
-        section {
-            width: var(--container-width);
-            margin: 0 auto;
-            padding: 0 0 4rem;
-        }
-        .section-heading {
+            padding: 1.2rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
-            margin-bottom: 2rem;
         }
-        .section-heading h2 {
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 600;
-        }
-        .section-heading p {
-            margin: 0;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-        }
-        .project-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 1.8rem;
-            backdrop-filter: blur(18px);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease;
-        }
-        .project-card::after {
-            content: "";
-            position: absolute;
-            inset: -40% 40% 60% -40%;
-            background: radial-gradient(circle at center, rgba(56, 189, 248, 0.18), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .project-card:hover {
-            border-color: rgba(56, 189, 248, 0.5);
-            transform: translateY(-6px);
-            box-shadow: 0 24px 44px rgba(15, 23, 42, 0.4);
-        }
-        .project-card:hover::after {
-            opacity: 1;
-        }
-        .project-card h3 {
-            margin: 0 0 0.75rem;
-            font-size: 1.4rem;
-            color: #f1f5f9;
-        }
-        .project-card p {
-            margin: 0 0 1.4rem;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-        .project-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.7rem;
-        }
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.45rem 0.95rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            text-decoration: none;
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--text-primary);
-            border: 1px solid rgba(148, 163, 184, 0.22);
-            background: rgba(148, 163, 184, 0.08);
-            transition: border 0.2s ease, color 0.2s ease, transform 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .project-link:hover {
-            border-color: rgba(56, 189, 248, 0.6);
-            color: var(--accent);
-            transform: translateY(-2px);
+
+        .nav-menu-5 {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
         }
-        .update-feed {
-            display: grid;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-        .update-item {
-            display: grid;
-            grid-template-columns: 110px 1fr;
-            gap: 1.2rem;
-            padding: 1.2rem 1.5rem;
-            border-radius: 16px;
-            background: rgba(15, 23, 42, 0.55);
-            border: 1px solid rgba(56, 189, 248, 0.16);
-        }
-        .update-item strong {
-            color: var(--accent);
-            letter-spacing: 0.08em;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-        .update-item span {
+
+        .navlink {
             color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            transition: color 0.3s ease;
         }
-        footer {
-            padding: 3rem 0 2rem;
-            border-top: 1px solid rgba(148, 163, 184, 0.16);
-            margin-top: 2rem;
+
+        .navlink:hover {
+            color: var(--accent-blue);
         }
-        footer .footer-inner {
-            width: var(--container-width);
-            margin: 0 auto;
-            text-align: center;
+
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.3rem;
+            border-radius: 20px;
+        }
+
+        .lang-toggle button {
+            background: transparent;
+            border: none;
             color: var(--text-secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
         }
-        footer a {
+
+        .lang-toggle button.active {
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+        }
+
+        /* Hero Section */
+        .homepage-hero-video {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+            padding-top: 80px;
+        }
+
+        .container-medium {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .heading-style-h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sub-header {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+            color: var(--primary-bg);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 40px rgba(56, 189, 248, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Intro Section */
+        .ama-scrolling-words-section {
+            padding: 8rem 2rem;
+            background: var(--primary-bg);
+        }
+
+        .ama-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ama_scrolling-words-para-2 {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* Projects Section */
+        .background-color-secondary {
+            background: var(--secondary-bg);
+            padding: 6rem 2rem;
+        }
+
+        .container-large {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .h2-section-text {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+        }
+
+        .container-xlarge {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            opacity: 0;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 60px rgba(56, 189, 248, 0.2);
+        }
+
+        .heading-style-h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+        }
+
+        .heading-style-h6 {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            padding: 0.7rem 1.5rem;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Updates Section */
+        .update-feed {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .update-item {
+            background: rgba(30, 41, 59, 0.4);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .update-item:hover {
+            background: rgba(30, 41, 59, 0.6);
+            transform: translateX(8px);
+        }
+
+        .update-item strong {
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .update-item span {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer-block {
+            background: var(--primary-bg);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .main-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-link {
             color: var(--text-secondary);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
-        footer a:hover {
-            color: var(--accent);
+
+        .footer-link:hover {
+            color: var(--accent-blue);
         }
-        @media (max-width: 720px) {
-            header {
-                padding: 3rem 0 3.5rem;
+
+        .copy-wrap {
+            text-align: center;
+            padding-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Menu */
+        .menubutton {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 991px) {
+            .nav-menu-5 {
+                display: none;
             }
-            .section-heading {
-                flex-direction: column;
-                align-items: flex-start;
+
+            .menubutton {
+                display: block;
             }
-            .update-item {
-                grid-template-columns: 1fr;
+
+            .heading-style-h1 {
+                font-size: 2.5rem;
             }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="hero">
-            <div class="lang-switch">
-                <div class="lang-toggle" role="group" aria-label="Language toggle">
-                    <button type="button" data-lang="en">English</button>
+    <!-- Navigation -->
+    <div class="navbar-black w-nav">
+        <div class="container-47">
+            <a href="#" class="logo-text">
+                <span>⚡</span>
+                <span>Light AI</span>
+            </a>
+            <nav class="nav-menu-5">
+                <a href="#projects" class="navlink" data-i18n="nav.projects">Projects</a>
+                <a href="#updates" class="navlink" data-i18n="nav.updates">Updates</a>
+                <a href="https://github.com/ModelTC" target="_blank" class="navlink">GitHub</a>
+                <div class="lang-toggle">
+                    <button type="button" data-lang="en">EN</button>
                     <button type="button" data-lang="zh">中文</button>
                 </div>
-            </div>
-            <span class="hero-label" data-i18n="hero.label"></span>
-            <h1 data-i18n="hero.title"></h1>
-            <p class="hero-subtitle" data-i18n="hero.subtitle"></p>
-            <div class="cta-row">
-                <a class="cta primary" href="https://github.com/ModelTC" target="_blank" rel="noopener" data-i18n="hero.cta.github"></a>
-                <a class="cta secondary" href="#projects" data-i18n="hero.cta.platforms"></a>
-                <a class="cta secondary" href="#updates" data-i18n="hero.cta.updates"></a>
+            </nav>
+            <div class="menubutton w-nav-button">
+                <div>☰</div>
             </div>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <section id="projects">
-            <div class="section-heading">
-                <h2 data-i18n="projects.title"></h2>
-                <p data-i18n="projects.subtitle"></p>
+    <!-- Hero Section -->
+    <section class="homepage-hero-video">
+        <div class="container-medium">
+            <h1 class="heading-style-h1 fade-in" data-i18n="hero.title">Light-speed Large Model Systems</h1>
+            <div class="sub-header fade-in" data-i18n="hero.subtitle" style="animation-delay: 0.2s">
+                End-to-end toolkit for model compression, inference, and video generation
             </div>
-            <div class="project-grid">
-                <article class="project-card">
-                    <h3>LightCompress</h3>
-                    <p data-i18n="projects.lightcompress.description"></p>
-                    <div class="project-links">
-                        <a class="project-link" href="https://github.com/ModelTC/LightCompress" target="_blank" rel="noopener" data-i18n="common.github"></a>
-                        <a class="project-link" href="https://light-ai.top/blog/lightcompress" target="_blank" rel="noopener" data-i18n="common.blog"></a>
-                    </div>
-                </article>
-                <article class="project-card">
-                    <h3>LightLLM</h3>
-                    <p data-i18n="projects.lightllm.description"></p>
-                    <div class="project-links">
-                        <a class="project-link" href="https://github.com/ModelTC/LightLLM" target="_blank" rel="noopener" data-i18n="common.github"></a>
-                        <a class="project-link" href="https://modeltc.github.io/lightllm-blog/" target="_blank" rel="noopener" data-i18n="common.blog"></a>
-                    </div>
-                </article>
-                <article class="project-card">
-                    <h3>LightX2V</h3>
-                    <p data-i18n="projects.lightx2v.description"></p>
-                    <div class="project-links">
-                        <a class="project-link" href="https://github.com/ModelTC/LightX2V" target="_blank" rel="noopener" data-i18n="common.github"></a>
-                        <a class="project-link" href="https://light-ai.top/blog/lightx2v" target="_blank" rel="noopener" data-i18n="common.blog"></a>
-                    </div>
-                </article>
-                <article class="project-card">
-                    <h3>X2V Studio</h3>
-                    <p data-i18n="projects.x2vstudio.description"></p>
-                    <div class="project-links">
-                        <a class="project-link" href="https://x2v.light-ai.top" target="_blank" rel="noopener" data-i18n="projects.x2vstudio.cta"></a>
-                    </div>
-                </article>
-            </div>
-        </section>
+            <a href="#projects" class="button fade-in" data-i18n="hero.cta" style="animation-delay: 0.4s">
+                Explore Platforms
+            </a>
+        </div>
+    </section>
 
-        <section id="updates">
-            <div class="section-heading">
-                <h2 data-i18n="updates.title"></h2>
-                <p data-i18n="updates.subtitle"></p>
-            </div>
-            <div class="update-feed">
-                <div class="update-item">
-                    <strong data-i18n="updates.q1.label"></strong>
-                    <span data-i18n="updates.q1.content"></span>
-                </div>
-                <div class="update-item">
-                    <strong data-i18n="updates.feb.label"></strong>
-                    <span data-i18n="updates.feb.content"></span>
-                </div>
-                <div class="update-item">
-                    <strong data-i18n="updates.jan.label"></strong>
-                    <span data-i18n="updates.jan.content"></span>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-inner">
-            <p data-i18n="footer.copyright"></p>
-            <p>
-                <a href="mailto:contact@light-ai.top" data-i18n="footer.contact"></a> ·
-                <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener" data-i18n="footer.icp"></a>
+    <!-- Intro Section -->
+    <section class="ama-scrolling-words-section">
+        <div class="ama-container">
+            <p class="ama_scrolling-words-para-2" data-i18n="intro.text">
+                We believe the future of AI is fast, efficient, and accessible. Light AI delivers cutting-edge compression and inference technology to accelerate every step from research to production, empowering teams to deploy large models at lightning speed.
             </p>
         </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="background-color-secondary">
+        <div class="container-large">
+            <h2 class="h2-section-text" data-i18n="projects.title">Core Platforms</h2>
+        </div>
+
+        <!-- LightCompress -->
+        <div class="container-xlarge">
+            <div class="project-card" data-project="lightcompress">
+                <h3 class="heading-style-h3">LightCompress</h3>
+                <p class="heading-style-h6" data-i18n="projects.lightcompress.description">
+                    Compression toolkit for LLM, VLM, and video generation models with structured sparsity, quantization, and token pruning to deliver faster inference at lower cost.
+                </p>
+                <div class="project-links">
+                    <a href="https://github.com/ModelTC/LightCompress" target="_blank" class="project-link">
+                        <span data-i18n="common.github">GitHub</span>
+                    </a>
+                    <a href="https://light-ai.top/blog/lightcompress" target="_blank" class="project-link">
+                        <span data-i18n="common.blog">Blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- LightLLM -->
+            <div class="project-card" data-project="lightllm">
+                <h3 class="heading-style-h3">LightLLM</h3>
+                <p class="heading-style-h6" data-i18n="projects.lightllm.description">
+                    Lightweight inference stack for large language and multimodal models, covering batched, streaming, and multi-GPU workloads with continuous performance tuning.
+                </p>
+                <div class="project-links">
+                    <a href="https://github.com/ModelTC/LightLLM" target="_blank" class="project-link">
+                        <span data-i18n="common.github">GitHub</span>
+                    </a>
+                    <a href="https://modeltc.github.io/lightllm-blog/" target="_blank" class="project-link">
+                        <span data-i18n="common.blog">Blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- LightX2V -->
+            <div class="project-card" data-project="lightx2v">
+                <h3 class="heading-style-h3">LightX2V</h3>
+                <p class="heading-style-h6" data-i18n="projects.lightx2v.description">
+                    Video generation inference engine focused on high-fidelity outputs from text and multimodal prompts for creative and virtual avatar scenarios.
+                </p>
+                <div class="project-links">
+                    <a href="https://github.com/ModelTC/LightX2V" target="_blank" class="project-link">
+                        <span data-i18n="common.github">GitHub</span>
+                    </a>
+                    <a href="https://light-ai.top/blog/lightx2v" target="_blank" class="project-link">
+                        <span data-i18n="common.blog">Blog</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- X2V Studio -->
+            <div class="project-card" data-project="x2vstudio">
+                <h3 class="heading-style-h3">X2V Studio</h3>
+                <p class="heading-style-h6" data-i18n="projects.x2vstudio.description">
+                    Live experience site supporting lip-sync driving and multi-style generation to explore LightX2V in production environments.
+                </p>
+                <div class="project-links">
+                    <a href="https://x2v.light-ai.top" target="_blank" class="project-link">
+                        <span data-i18n="projects.x2vstudio.cta">Open Studio</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Updates Section -->
+    <section id="updates" class="ama-scrolling-words-section">
+        <div class="container-large">
+            <h2 class="h2-section-text" data-i18n="updates.title">Latest Signals</h2>
+        </div>
+        <div class="update-feed">
+            <div class="update-item">
+                <strong data-i18n="updates.q1.label">Q1 · 2025</strong>
+                <span data-i18n="updates.q1.content">LightCompress releases a low-rank KV cache compression recipe for inference deployment, cutting serving cost by 38%.</span>
+            </div>
+            <div class="update-item">
+                <strong data-i18n="updates.feb.label">Feb · 2025</strong>
+                <span data-i18n="updates.feb.content">LightLLM ships a multimodal inference acceleration guide with a new end-to-end video QA demo.</span>
+            </div>
+            <div class="update-item">
+                <strong data-i18n="updates.jan.label">Jan · 2025</strong>
+                <span data-i18n="updates.jan.content">LightX2V v1.3 improves lip-sync stability and opens the public studio at x2v.light-ai.top.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-block">
+        <div class="main-wrapper">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <p style="font-size: 1.2rem; color: var(--text-secondary);" data-i18n="footer.tagline">
+                    Bridging the gap between imagination and creation.
+                </p>
+            </div>
+            <div class="copy-wrap">
+                <p data-i18n="footer.copyright">© 2025 Light AI · Model Toolchain</p>
+                <p style="margin-top: 0.5rem;">
+                    <a href="mailto:contact@light-ai.top" class="footer-link">contact@light-ai.top</a>
+                    <span style="margin: 0 0.5rem; color: var(--text-muted);">·</span>
+                    <a href="https://beian.miit.gov.cn" target="_blank" class="footer-link" data-i18n="footer.icp">京ICP备2021026391号-2</a>
+                </p>
+            </div>
+        </div>
     </footer>
+
     <script>
+        // Translations
         const translations = {
             en: {
-                'hero.label': 'Light AI · Model Toolchain',
-                'hero.title': 'Light-speed tooling for efficient multi-modal compression and inference.',
-                'hero.subtitle': 'Light AI delivers an end-to-end toolkit for model compression, inference, and video generation experiences, accelerating every step from research to production.',
-                'hero.cta.github': 'Explore GitHub',
-                'hero.cta.platforms': 'View Platforms',
-                'hero.cta.updates': 'Latest Updates',
+                'nav.projects': 'Projects',
+                'nav.updates': 'Updates',
+                'hero.title': 'Light-speed Large Model Systems',
+                'hero.subtitle': 'End-to-end toolkit for model compression, inference, and video generation',
+                'hero.cta': 'Explore Platforms',
+                'intro.text': 'We believe the future of AI is fast, efficient, and accessible. Light AI delivers cutting-edge compression and inference technology to accelerate every step from research to production, empowering teams to deploy large models at lightning speed.',
                 'projects.title': 'Core Platforms',
-                'projects.subtitle': 'Four core products for efficient large-model deployment, continuously iterating.',
                 'projects.lightcompress.description': 'Compression toolkit for LLM, VLM, and video generation models with structured sparsity, quantization, and token pruning to deliver faster inference at lower cost.',
                 'projects.lightllm.description': 'Lightweight inference stack for large language and multimodal models, covering batched, streaming, and multi-GPU workloads with continuous performance tuning.',
                 'projects.lightx2v.description': 'Video generation inference engine focused on high-fidelity outputs from text and multimodal prompts for creative and virtual avatar scenarios.',
                 'projects.x2vstudio.description': 'Live experience site supporting lip-sync driving and multi-style generation to explore LightX2V in production environments.',
                 'projects.x2vstudio.cta': 'Open Studio',
                 'updates.title': 'Latest Signals',
-                'updates.subtitle': 'Blog stories and release notes drop here. Subscribe via RSS or join the community.',
-                'updates.q1.label': 'Q1·2025',
+                'updates.q1.label': 'Q1 · 2025',
                 'updates.q1.content': 'LightCompress releases a low-rank KV cache compression recipe for inference deployment, cutting serving cost by 38%.',
-                'updates.feb.label': 'Feb·2025',
+                'updates.feb.label': 'Feb · 2025',
                 'updates.feb.content': 'LightLLM ships a multimodal inference acceleration guide with a new end-to-end video QA demo.',
-                'updates.jan.label': 'Jan·2025',
-                'updates.jan.content': 'LightX2V v1.3 improves lip-sync stability and opens the public studio at `x2v.light-ai.top`.',
-                'footer.contact': 'contact@light-ai.top',
-                'footer.icp': 'ICP No. 京ICP备2021026391号-2',
+                'updates.jan.label': 'Jan · 2025',
+                'updates.jan.content': 'LightX2V v1.3 improves lip-sync stability and opens the public studio at x2v.light-ai.top.',
+                'footer.tagline': 'Bridging the gap between imagination and creation.',
                 'footer.copyright': '© 2025 Light AI · Model Toolchain',
+                'footer.icp': 'ICP No. 京ICP备2021026391号-2',
                 'common.github': 'GitHub',
                 'common.blog': 'Blog'
             },
             zh: {
-                'hero.label': 'Light AI · 模型 工具链',
-                'hero.title': '高效多模态压缩推理工具链。',
-                'hero.subtitle': 'Light AI 聚焦大模型压缩、推理和视频生成体验，打造从研究到落地的一站式工具矩阵，助力团队快速上线 AI 生产力。',
-                'hero.cta.github': '访问 GitHub',
-                'hero.cta.platforms': '查看平台矩阵',
-                'hero.cta.updates': '最新动态',
+                'nav.projects': '产品矩阵',
+                'nav.updates': '最新动态',
+                'hero.title': '光速大模型系统',
+                'hero.subtitle': '模型压缩、推理与视频生成的端到端工具链',
+                'hero.cta': '探索平台',
+                'intro.text': '我们相信 AI 的未来是快速、高效且易用的。Light AI 提供前沿的压缩与推理技术，加速从研究到生产的每个环节，助力团队以光速部署大模型。',
                 'projects.title': '核心平台',
-                'projects.subtitle': '围绕高效大模型部署的四大核心产品矩阵，持续迭代更新中。',
                 'projects.lightcompress.description': '面向 LLM / VLM 与视频生成模型的压缩工具链，提供结构化稀疏、量化与 token pruning，显著降低推理成本。',
-                'projects.lightllm.description': '轻量级大语言模型与多模态推理框架，覆盖批量、流式和多 GPU 场景，持续输出性能调优最佳实践。',
+                'projects.lightllm.description': '轻量级大语言模型与多模态推理框架,覆盖批量、流式和多 GPU 场景，持续输出性能调优最佳实践。',
                 'projects.lightx2v.description': '视频生成推理引擎，专注文本与多模态提示到视频的高保真输出，面向创意生产和虚拟人场景。',
                 'projects.x2vstudio.description': '上线体验站点，支持口型驱动和多风格生成，实时探索 LightX2V 模型在生产环境中的表现。',
                 'projects.x2vstudio.cta': '立即体验',
                 'updates.title': '最新信号',
-                'updates.subtitle': '博客与版本更新会在此同步发布，欢迎订阅 RSS 或加入社区。',
-                'updates.q1.label': '2025·Q1',
+                'updates.q1.label': '2025 · Q1',
                 'updates.q1.content': 'LightCompress 推出面向推理部署的 KV Cache 低秩压缩方案，部署成本下降 38%。',
-                'updates.feb.label': '2025·02',
+                'updates.feb.label': '2025 · 02',
                 'updates.feb.content': 'LightLLM 发布多模态推理加速教程，并新增对视频问答的端到端 Demo 支持。',
-                'updates.jan.label': '2025·01',
-                'updates.jan.content': 'LightX2V 完成 1.3 版本上线，强化口型驱动稳定性，开放体验站 `x2v.light-ai.top`。',
-                'footer.contact': 'contact@light-ai.top',
+                'updates.jan.label': '2025 · 01',
+                'updates.jan.content': 'LightX2V 完成 1.3 版本上线，强化口型驱动稳定性，开放体验站 x2v.light-ai.top。',
+                'footer.tagline': '连接想象与创造。',
+                'footer.copyright': '© 2025 Light AI · 模型工具链',
                 'footer.icp': '京ICP备2021026391号-2',
                 'common.github': 'GitHub',
                 'common.blog': '博客'
             }
         };
 
-        const htmlEl = document.documentElement;
-        const langButtons = document.querySelectorAll('.lang-toggle button');
-
+        // Language switching
         function updateLanguage(lang) {
             const messages = translations[lang] || translations.en;
-            const fallback = translations.en;
-            document.querySelectorAll('[data-i18n]').forEach(node => {
-                const key = node.getAttribute('data-i18n');
-                const value = messages[key] ?? fallback[key] ?? '';
-                node.textContent = value;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (messages[key]) {
+                    el.textContent = messages[key];
+                }
             });
-            langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-            htmlEl.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+            
+            document.querySelectorAll('.lang-toggle button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
             localStorage.setItem('lightai-lang', lang);
         }
 
-        langButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                updateLanguage(button.dataset.lang);
+        document.querySelectorAll('.lang-toggle button').forEach(btn => {
+            btn.addEventListener('click', () => updateLanguage(btn.dataset.lang));
+        });
+
+        // Initialize language
+        const savedLang = localStorage.getItem('lightai-lang') || 
+                         (navigator.language.toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        updateLanguage(savedLang);
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate heading
+        gsap.to('.h2-section-text', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scrollTrigger: {
+                trigger: '.h2-section-text',
+                start: 'top 80%'
+            }
+        });
+
+        // Animate project cards
+        gsap.utils.toArray('.project-card').forEach((card, index) => {
+            gsap.to(card, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                delay: index * 0.2,
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%'
+                }
             });
         });
 
-        const savedLang = localStorage.getItem('lightai-lang');
-        const browserLang = navigator.language || navigator.userLanguage || 'en';
-        const initialLang = savedLang || (browserLang.toLowerCase().startsWith('zh') ? 'zh' : 'en');
-        updateLanguage(initialLang);
+        // Smooth scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
     </script>
 </body>
 </html>
-
-
