@@ -557,7 +557,7 @@
                     <a href="https://github.com/ModelTC/LightCompress" target="_blank" class="project-link">
                         <span data-i18n="common.github">GitHub</span>
                     </a>
-                    <a href="https://light-ai.top/blog/lightcompress" target="_blank" class="project-link">
+                    <a href="https://llmc-en.readthedocs.io/en/latest/" target="_blank" class="project-link" data-i18n-href="projects.lightcompress.doc">
                         <span data-i18n="common.blog">Blog</span>
                     </a>
                 </div>
@@ -589,7 +589,7 @@
                     <a href="https://github.com/ModelTC/LightX2V" target="_blank" class="project-link">
                         <span data-i18n="common.github">GitHub</span>
                     </a>
-                    <a href="https://light-ai.top/blog/lightx2v" target="_blank" class="project-link">
+                    <a href="https://lightx2v-en.readthedocs.io/en/latest/" target="_blank" class="project-link" data-i18n-href="projects.lightx2v.doc">
                         <span data-i18n="common.blog">Blog</span>
                     </a>
                 </div>
@@ -663,8 +663,10 @@
                 'intro.text': 'We believe the future of AI is fast, efficient, and accessible. Light AI delivers cutting-edge compression and inference technology to accelerate every step from research to production, empowering teams to deploy large models at lightning speed.',
                 'projects.title': 'Core Platforms',
                 'projects.lightcompress.description': 'Compression toolkit for LLM, VLM, and video generation models with structured sparsity, quantization, and token pruning to deliver faster inference at lower cost.',
+                'projects.lightcompress.doc': 'https://llmc-en.readthedocs.io/en/latest/',
                 'projects.lightllm.description': 'Lightweight inference stack for large language and multimodal models, covering batched, streaming, and multi-GPU workloads with continuous performance tuning.',
                 'projects.lightx2v.description': 'Video generation inference engine focused on high-fidelity outputs from text and multimodal prompts for creative and virtual avatar scenarios.',
+                'projects.lightx2v.doc': 'https://lightx2v-en.readthedocs.io/en/latest/',
                 'projects.x2vstudio.description': 'Live experience site supporting lip-sync driving and multi-style generation to explore LightX2V in production environments.',
                 'projects.x2vstudio.cta': 'Open Studio',
                 'updates.title': 'Latest Updates',
@@ -689,8 +691,10 @@
                 'intro.text': '我们相信 AI 的未来是快速、高效且易用的。Light AI 提供前沿的压缩与推理技术，加速从研究到生产的每个环节，助力团队以光速部署大模型。',
                 'projects.title': '核心平台',
                 'projects.lightcompress.description': '面向 LLM / VLM 与视频生成模型的压缩工具链，提供结构化稀疏、量化与 token pruning，显著降低推理成本。',
+                'projects.lightcompress.doc': 'https://llmc-zhcn.readthedocs.io/en/latest/',
                 'projects.lightllm.description': '轻量级大语言模型与多模态推理框架,覆盖批量、流式和多 GPU 场景，持续输出性能调优最佳实践。',
                 'projects.lightx2v.description': '视频生成推理引擎，专注文本与多模态提示到视频的高保真输出，面向创意生产和虚拟人场景。',
+                'projects.lightx2v.doc': 'https://lightx2v-zhcn.readthedocs.io/zh-cn/latest/',
                 'projects.x2vstudio.description': '上线体验站点，支持口型驱动和多风格生成，实时探索 LightX2V 模型在生产环境中的表现。',
                 'projects.x2vstudio.cta': '立即体验',
                 'updates.title': '最新动态',
@@ -718,6 +722,14 @@
                 }
             });
             
+            // Update href attributes for links with data-i18n-href
+            document.querySelectorAll('[data-i18n-href]').forEach(el => {
+                const key = el.getAttribute('data-i18n-href');
+                if (messages[key]) {
+                    el.href = messages[key];
+                }
+            });
+            
             document.querySelectorAll('.lang-toggle button').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
@@ -730,9 +742,8 @@
             btn.addEventListener('click', () => updateLanguage(btn.dataset.lang));
         });
 
-        // Initialize language
-        const savedLang = localStorage.getItem('lightai-lang') || 
-                         (navigator.language.toLowerCase().startsWith('zh') ? 'zh' : 'en');
+        // Initialize language - default to English, unless user has explicitly chosen Chinese
+        const savedLang = localStorage.getItem('lightai-lang') || 'en';
         updateLanguage(savedLang);
 
         // GSAP Animations
